@@ -1,4 +1,4 @@
-# No changes today in the focus buildings (Saltillo, The Arnold, The Guthrie); Lirica, 7East and E6 now tracked
+# No changes today
 
 Calendar: https://sac435801.github.io/apartment-tracker/
 
@@ -10,7 +10,7 @@ Calendar: https://sac435801.github.io/apartment-tracker/
 - All sites checked successfully.
 
 ## Other East Austin studios
-Now tracking (no prior data): Lirica, 7East, E6.
+- No changes at Lirica, 7East or E6 (re-checked live; no new studios, price drops or deal changes).
 - Lirica: deal up to 12 weeks free.
 - E6: deal up to 2 weeks free.
 
