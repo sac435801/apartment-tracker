@@ -11,6 +11,15 @@ from pathlib import Path
 
 BUILDINGS = ["Residences at Saltillo", "The Arnold", "The Guthrie"]
 SHORT = {"Residences at Saltillo": "Saltillo", "The Arnold": "Arnold", "The Guthrie": "Guthrie"}
+# Other complexes in the area: income-restricted studios included, only studios at or under the cap.
+OTHERS = ["Lirica", "7East", "E6"]
+OTHER_MAX = 1600
+RESTRICTED = re.compile(r"smart|affordable|income|restricted", re.I)
+
+
+def is_restricted(name, plan):
+    p = plan if isinstance(plan, dict) else {}
+    return bool(p.get("income_restricted")) or bool(RESTRICTED.search(f"{name} {p.get('note') or ''}"))
 
 
 def nums(value):
@@ -44,17 +53,23 @@ def load(repo):
             continue
         skipped = set(snap.get("could_not_check") or [])
         day = {}
-        for name in BUILDINGS:
+        for name in BUILDINGS + OTHERS:
             b = (snap.get("buildings") or {}).get(name)
             if not b:
                 continue
+            other = name in OTHERS
             plans = {}
             for pname, plan in (b.get("plans") or {}).items():
-                if "smart" in pname.lower():
+                restricted = is_restricted(pname, plan)
+                low = plan_low(plan)
+                if not other and "smart" in pname.lower():
+                    continue
+                if other and (low is None or low > OTHER_MAX):
                     continue
                 p = plan if isinstance(plan, dict) else {}
                 plans[pname] = {
-                    "low": plan_low(plan),
+                    "low": low,
+                    "restricted": restricted and other,
                     "sqft": p.get("sqft"),
                     "note": p.get("note"),
                     "units": {u: (v.get("price") if isinstance(v, dict) else v, v.get("available") if isinstance(v, dict) else None)
@@ -73,7 +88,7 @@ def load(repo):
 
 def main():
     repo = Path(sys.argv[1] if len(sys.argv) > 1 else ".")
-    data = {"buildings": BUILDINGS, "short": SHORT, "days": load(repo)}
+    data = {"buildings": BUILDINGS, "others": OTHERS, "otherMax": OTHER_MAX, "short": SHORT, "days": load(repo)}
     html = TEMPLATE.replace("/*DATA*/null", json.dumps(data, separators=(",", ":")))
     (repo / "index.html").write_text(html)
     print(f"index.html written with {len(data['days'])} day(s)")
@@ -178,12 +193,22 @@ h1{font-size:22px;margin:4px 2px 2px;letter-spacing:-.01em}
 .bld td:last-child{text-align:right}
 .tag{font-size:11px;color:var(--stale)}
 .empty{color:var(--muted);font-size:13px;padding:6px 0}
+h2.sec{font-size:17px;margin:22px 2px 2px}
+.others{padding:4px 12px}
+.orow{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:10px 0;border-top:1px solid var(--border);cursor:pointer}
+.orow:first-child{border-top:none}
+.orow .on{font-weight:600}
+.orow .op{font-weight:650;text-align:right;font-variant-numeric:tabular-nums}
+.orow .od{grid-column:1/-1;font-size:12px;color:var(--muted)}
+.sheet h4{margin:16px 2px 8px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 @media (max-width:520px){
   .cards{grid-template-columns:1fr}
   .card{display:grid;grid-template-columns:1fr auto;align-items:center}
   .card .deal{grid-column:1/-1;margin-top:2px}
-  .day{min-height:66px;padding:3px}
-  .chip{font-size:10px}
+  .day{min-height:66px;padding:3px 2px}
+  .chip{font-size:10px;gap:2px;letter-spacing:-.02em}
+  .chip .dot{width:5px;height:5px}
+  .grid{gap:3px}
 }
 </style>
 </head>
@@ -201,6 +226,9 @@ h1{font-size:22px;margin:4px 2px 2px;letter-spacing:-.01em}
     <div class="grid" id="grid"></div>
     <div class="legend" id="legend"></div>
   </div>
+  <h2 class="sec">Other East Austin studios</h2>
+  <p class="sub" id="othersub"></p>
+  <div class="glass others" id="others"></div>
 </div>
 <div class="sheet-bg" id="sheetbg"><div class="sheet glass" id="sheet"></div></div>
 <script>
@@ -260,7 +288,7 @@ function render(){
     if (day) D.buildings.forEach((b, i) => {
       const x = day[b]; if (!x) return;
       const c = change(key, b);
-      html += `<div class="chip${x.stale?" stale":""}"><span class="dot" style="background:${COLORS[i]}"></span>${x.low==null?"—":Math.round(x.low).toLocaleString()}${c?`<i class="${c<0?"down":"up"}">${c<0?"▼":"▲"}</i>`:""}</div>`;
+      html += `<div class="chip${x.stale?" stale":""}"><span class="dot" style="background:${COLORS[i]}"></span>${x.low==null?"—":Math.round(x.low)}${c?`<i class="${c<0?"down":"up"}">${c<0?"▼":"▲"}</i>`:""}</div>`;
     });
     cell.innerHTML = html;
     if (day) cell.onclick = () => openDay(key);
@@ -274,28 +302,53 @@ document.getElementById("next").onclick = () => { view.setMonth(view.getMonth() 
 
 // Day detail sheet
 const bg = document.getElementById("sheetbg"), sheet = document.getElementById("sheet");
-function openDay(key){
-  const day = D.days[key], p = prevDate(key);
-  let html = `<h2>${new Date(key+"T12:00").toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})}<button class="close" aria-label="Close">×</button></h2>`;
-  D.buildings.forEach((b, i) => {
-    const x = day[b]; if (!x) return;
-    const old = p && D.days[p][b] ? D.days[p][b].plans : {};
-    const rows = Object.entries(x.plans).map(([name, pl]) => {
+function block(key, b, color){
+  const x = D.days[key][b]; if (!x) return "";
+  const p = prevDate(key);
+  const old = p && D.days[p][b] ? D.days[p][b].plans : {};
+  const rows = Object.entries(x.plans).map(([name, pl]) => {
       const was = old[name] ? old[name].low : null;
       const c = was != null && pl.low != null && was !== pl.low ? pl.low - was : null;
       const units = Object.entries(pl.units).map(([u,[pr,av]])=>`${u} ${fmt(pr)}${av?" · "+av:""}`).join("<br>");
-      return `<tr><td><b>${name}</b>${pl.sqft?` <span class="tag">${pl.sqft} sq ft</span>`:""}${pl.note?`<br><span class="tag">${pl.note}</span>`:""}${units?`<br><span class="tag">${units}</span>`:""}</td>
+      return `<tr><td><b>${name}</b>${pl.sqft?` <span class="tag">${pl.sqft} sq ft</span>`:""}${pl.restricted?' <span class="tag">· income-restricted</span>':""}${pl.note?`<br><span class="tag">${pl.note}</span>`:""}${units?`<br><span class="tag">${units}</span>`:""}</td>
         <td>${pl.low==null?'<span class="tag">call for price</span>':fmt(pl.low)}${c?`<br><span class="${c<0?"down":"up"}">${c<0?"▼ "+fmt(-c):"▲ "+fmt(c)}</span>`:""}${old[name]?"":(p?'<br><span class="tag">new</span>':"")}</td></tr>`;
-    }).join("");
-    html += `<div class="glass bld"><h3><span class="dot" style="background:${COLORS[i]}"></span>${b}${x.stale?' <span class="tag">· not checked, last known</span>':""}</h3>
+  }).join("");
+  return `<div class="glass bld"><h3>${color?`<span class="dot" style="background:${color}"></span>`:""}${b}${x.stale?' <span class="tag">· not checked, last known</span>':""}</h3>
       <div class="deal">${x.deal?"🎁 "+x.deal:"No deal listed"}</div>
-      ${rows?`<table>${rows}</table>`:'<div class="empty">No studios listed</div>'}</div>`;
-  });
+      ${rows?`<table>${rows}</table>`:`<div class="empty">No studios${D.others.includes(b)?" at or under "+fmt(D.otherMax):" listed"}</div>`}</div>`;
+}
+function openDay(key){
+  let html = `<h2>${new Date(key+"T12:00").toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})}<button class="close" aria-label="Close">×</button></h2>`;
+  D.buildings.forEach((b, i) => { html += block(key, b, COLORS[i]); });
+  const o = D.others.map(b => block(key, b)).join("");
+  if (o) html += `<h4>Other East Austin studios</h4>` + o;
+  showSheet(html);
+}
+function openOther(b){
+  showSheet(`<h2>${b}<button class="close" aria-label="Close">×</button></h2>` + block(last, b));
+}
+function showSheet(html){
   sheet.innerHTML = html;
   sheet.querySelector(".close").onclick = close;
   bg.classList.add("open");
 }
 function close(){ bg.classList.remove("open"); }
+// Other complexes: latest cheapest studio per complex, cheapest first
+(function(){
+  document.getElementById("othersub").textContent = `Studios at or under ${fmt(D.otherMax)} · income-restricted units included and marked · tap for details`;
+  const rows = last ? D.others.map(b => [b, D.days[last][b]]).filter(([,x]) => x) : [];
+  rows.sort((a, b) => (a[1].low ?? 1e9) - (b[1].low ?? 1e9));
+  const box = document.getElementById("others");
+  if (!rows.length){ box.innerHTML = '<div class="empty" style="padding:12px 0">No data yet: added from the next daily check.</div>'; return; }
+  box.innerHTML = rows.map(([b, x]) => {
+    const c = change(last, b);
+    const cheap = Object.values(x.plans).find(p => p.low === x.low);
+    return `<div class="orow" data-b="${b}"><div class="on">${b}${x.stale?' <span class="tag">· not checked today</span>':""}</div>
+      <div class="op">${x.low==null?'<span class="tag">none under '+fmt(D.otherMax)+'</span>':fmt(x.low)}${c?` <span class="${c<0?"down":"up"}" style="font-size:12px">${c<0?"▼":"▲"}${fmt(Math.abs(c))}</span>`:""}</div>
+      <div class="od">${cheap&&cheap.restricted?"income-restricted · ":""}${x.deal?"🎁 "+x.deal:"no deal listed"}</div></div>`;
+  }).join("");
+  box.querySelectorAll(".orow").forEach(r => r.onclick = () => openOther(r.dataset.b));
+})();
 bg.onclick = e => { if (e.target === bg) close(); };
 document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
 render();
