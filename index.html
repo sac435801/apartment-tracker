@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio Price Calendar</title>
+<style>
+:root{
+  --bg1:#c9d6ff; --bg2:#e2e2ff; --bg3:#ffd6e8;
+  --glass:rgba(255,255,255,.45); --glass-strong:rgba(255,255,255,.65);
+  --border:rgba(255,255,255,.7); --text:#1d1b2e; --muted:#5d5a73;
+  --down:#0f8a5f; --up:#c2410c; --stale:#8a8799;
+  --c1:#6d5dfc; --c2:#e0559a; --c3:#1f9bb4;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg1:#1b1638; --bg2:#0e1a33; --bg3:#2d1230;
+    --glass:rgba(255,255,255,.08); --glass-strong:rgba(20,18,40,.72);
+    --border:rgba(255,255,255,.14); --text:#f2f0ff; --muted:#a9a5c4;
+    --down:#4ade9a; --up:#fb923c; --stale:#77738f;
+    --c1:#a99dff; --c2:#ff8ec4; --c3:#5fd3ea;
+  }
+}
+:root[data-theme="dark"]{
+  --bg1:#1b1638; --bg2:#0e1a33; --bg3:#2d1230;
+  --glass:rgba(255,255,255,.08); --glass-strong:rgba(20,18,40,.72);
+  --border:rgba(255,255,255,.14); --text:#f2f0ff; --muted:#a9a5c4;
+  --down:#4ade9a; --up:#fb923c; --stale:#77738f;
+  --c1:#a99dff; --c2:#ff8ec4; --c3:#5fd3ea;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  min-height:100vh; color:var(--text);
+  font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  background:var(--bg2);
+  background-image:
+    radial-gradient(60vmax 60vmax at 0% 0%,var(--bg1),transparent 60%),
+    radial-gradient(60vmax 60vmax at 100% 100%,var(--bg3),transparent 60%);
+  background-attachment:fixed;
+  padding:max(16px,env(safe-area-inset-top)) 16px 32px;
+}
+.wrap{max-width:860px;margin:0 auto}
+.glass{
+  background:var(--glass); border:1px solid var(--border); border-radius:20px;
+  -webkit-backdrop-filter:blur(16px) saturate(140%); backdrop-filter:blur(16px) saturate(140%);
+  box-shadow:0 8px 30px rgba(20,10,60,.10);
+}
+h1{font-size:22px;margin:4px 2px 2px;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:13px;margin:0 2px 14px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.card{padding:12px 12px 10px}
+.card .name{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.card .price{font-size:22px;font-weight:650;margin:2px 0;font-variant-numeric:tabular-nums}
+.card .chg{font-size:12px;font-weight:600}
+.card .deal{font-size:12px;color:var(--muted);margin-top:6px}
+.down{color:var(--down)} .up{color:var(--up)} .flat{color:var(--muted)}
+.cal{padding:12px}
+.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.calhead b{font-size:17px}
+.nav{
+  appearance:none;border:1px solid var(--border);background:var(--glass);color:var(--text);
+  width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;
+}
+.nav:disabled{opacity:.35;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.dow{font-size:11px;color:var(--muted);text-align:center;padding:2px 0 4px}
+.day{
+  min-height:78px;border-radius:12px;padding:4px;border:1px solid transparent;
+  display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums;
+}
+.day.has{background:var(--glass);border-color:var(--border);cursor:pointer}
+.day.has:hover{background:var(--glass-strong)}
+.day.today{outline:2px solid var(--c1);outline-offset:-2px}
+.day .n{font-size:11px;color:var(--muted)}
+.chip{font-size:11px;line-height:1.25;display:flex;align-items:center;gap:3px;white-space:nowrap;overflow:hidden}
+.chip .dot{width:6px;height:6px}
+.chip.stale{color:var(--stale)}
+.chip i{font-style:normal;font-size:9px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:5px}
+.sheet-bg{position:fixed;inset:0;background:rgba(10,8,30,.35);display:none;align-items:flex-end;justify-content:center;z-index:10}
+.sheet-bg.open{display:flex}
+.sheet{
+  width:100%;max-width:560px;max-height:82vh;overflow:auto;padding:18px 16px max(20px,env(safe-area-inset-bottom));
+  background:var(--glass-strong);border-radius:22px 22px 0 0;
+}
+@media (min-width:700px){.sheet-bg{align-items:center}.sheet{border-radius:22px}}
+.sheet h2{margin:0 0 10px;font-size:18px;display:flex;justify-content:space-between;align-items:center}
+.sheet .close{appearance:none;border:none;background:none;color:var(--muted);font-size:22px;cursor:pointer}
+.bld{padding:10px 12px;margin-bottom:10px;border-radius:16px}
+.bld h3{margin:0 0 4px;font-size:15px;display:flex;align-items:center;gap:6px}
+.bld .deal{font-size:12px;color:var(--muted);margin-bottom:6px}
+.bld table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.bld td{padding:3px 0;border-top:1px solid var(--border)}
+.bld td:last-child{text-align:right}
+.tag{font-size:11px;color:var(--stale)}
+.empty{color:var(--muted);font-size:13px;padding:6px 0}
+@media (max-width:520px){
+  .cards{grid-template-columns:1fr}
+  .card{display:grid;grid-template-columns:1fr auto;align-items:center}
+  .card .deal{grid-column:1/-1;margin-top:2px}
+  .day{min-height:66px;padding:3px}
+  .chip{font-size:10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Studio Price Calendar</h1>
+  <p class="sub" id="sub"></p>
+  <div class="cards" id="cards"></div>
+  <div class="glass cal">
+    <div class="calhead">
+      <button class="nav" id="prev" aria-label="Previous month">‹</button>
+      <b id="month"></b>
+      <button class="nav" id="next" aria-label="Next month">›</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+</div>
+<div class="sheet-bg" id="sheetbg"><div class="sheet glass" id="sheet"></div></div>
+<script>
+const D = {"buildings":["Residences at Saltillo","The Arnold","The Guthrie"],"short":{"Residences at Saltillo":"Saltillo","The Arnold":"Arnold","The Guthrie":"Guthrie"},"days":{"2026-10-11":{"Residences at Saltillo":{"low":1315.0,"deal":"Up to 6 weeks free on 13+ month leases (not SMART units)","plans":{"E1":{"low":1315.0,"sqft":324,"note":null,"units":{}},"E2":{"low":1460.0,"sqft":507,"note":null,"units":{}},"E2A":{"low":null,"sqft":553,"note":null,"units":{}}},"stale":false},"The Arnold":{"low":1708.0,"deal":"Up to 6 weeks free on select apartments (T&Cs apply)","plans":{"E2-1":{"low":1708.0,"sqft":447,"note":null,"units":{"#3205":[1708,"10/30/26"],"#2410":[1728,"11/28/26"]}}},"stale":false},"The Guthrie":{"low":1290.0,"deal":"Up to 8 weeks free on select homes","plans":{"EF1":{"low":1290.0,"sqft":400,"note":null,"units":{}},"EF2":{"low":1349.0,"sqft":400,"note":"Only 2 left","units":{}},"EF2a":{"low":null,"sqft":400,"note":null,"units":{}},"EF4":{"low":null,"sqft":454,"note":null,"units":{}},"EF3":{"low":null,"sqft":596,"note":null,"units":{}}},"stale":false}}}};
+const COLORS = ["var(--c1)","var(--c2)","var(--c3)"];
+const dates = Object.keys(D.days).sort();
+const fmt = n => n == null ? "—" : "$" + Math.round(n).toLocaleString();
+const prevDate = d => dates[dates.indexOf(d) - 1];
+const low = (d, b) => d && D.days[d][b] ? D.days[d][b].low : null;
+function change(d, b){
+  const a = low(prevDate(d), b), c = low(d, b);
+  if (a == null || c == null || a === c) return null;
+  return c - a;
+}
+const last = dates[dates.length - 1];
+document.getElementById("sub").textContent = last
+  ? `Cheapest non-SMART studio per building · updated ${new Date(last+"T12:00").toLocaleDateString(undefined,{month:"short",day:"numeric"})}`
+  : "No data yet";
+
+// Summary cards: latest lowest price + change since first day
+const cards = document.getElementById("cards");
+D.buildings.forEach((b, i) => {
+  const cur = last && D.days[last][b];
+  const first = dates.find(d => D.days[d][b] && D.days[d][b].low != null);
+  const diff = cur && first && cur.low != null ? cur.low - D.days[first][b].low : 0;
+  const el = document.createElement("div");
+  el.className = "glass card";
+  el.innerHTML = `<div><div class="name"><span class="dot" style="background:${COLORS[i]}"></span>${D.short[b]}</div>
+    <div class="price">${fmt(cur && cur.low)}</div></div>
+    <div class="chg ${diff<0?"down":diff>0?"up":"flat"}">${diff<0?"▼ "+fmt(-diff):diff>0?"▲ "+fmt(diff):"no change"} <span class="flat" style="font-weight:400">since ${first?first.slice(5).replace("-","/"):"—"}</span></div>
+    <div class="deal">${cur && cur.deal ? "🎁 " + cur.deal : ""}${cur && cur.stale ? ' <span class="tag">· not checked today</span>' : ""}</div>`;
+  cards.appendChild(el);
+});
+
+// Legend
+document.getElementById("legend").innerHTML = D.buildings.map((b,i)=>`<span><span class="dot" style="background:${COLORS[i]}"></span>${D.short[b]}</span>`).join("")
+  + `<span class="down">▼ drop</span><span class="up">▲ rise</span><span style="color:var(--stale)">grey = not checked</span>`;
+
+// Calendar
+let view = last ? new Date(last + "T12:00") : new Date();
+view.setDate(1);
+const firstMonth = dates[0] ? dates[0].slice(0,7) : null, lastMonth = last ? last.slice(0,7) : null;
+const ym = d => d.toISOString().slice(0,7);
+function render(){
+  document.getElementById("month").textContent = view.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+  const grid = document.getElementById("grid");
+  grid.innerHTML = ["S","M","T","W","T","F","S"].map(x=>`<div class="dow">${x}</div>`).join("");
+  const y = view.getFullYear(), m = view.getMonth();
+  for (let i = 0; i < new Date(y, m, 1).getDay(); i++) grid.insertAdjacentHTML("beforeend", "<div></div>");
+  const n = new Date(y, m + 1, 0).getDate();
+  for (let d = 1; d <= n; d++){
+    const key = `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    const day = D.days[key];
+    const cell = document.createElement("div");
+    cell.className = "day" + (day ? " has" : "") + (key === last ? " today" : "");
+    let html = `<div class="n">${d}</div>`;
+    if (day) D.buildings.forEach((b, i) => {
+      const x = day[b]; if (!x) return;
+      const c = change(key, b);
+      html += `<div class="chip${x.stale?" stale":""}"><span class="dot" style="background:${COLORS[i]}"></span>${x.low==null?"—":Math.round(x.low).toLocaleString()}${c?`<i class="${c<0?"down":"up"}">${c<0?"▼":"▲"}</i>`:""}</div>`;
+    });
+    cell.innerHTML = html;
+    if (day) cell.onclick = () => openDay(key);
+    grid.appendChild(cell);
+  }
+  document.getElementById("prev").disabled = !firstMonth || ym(view) <= firstMonth;
+  document.getElementById("next").disabled = !lastMonth || ym(view) >= lastMonth;
+}
+document.getElementById("prev").onclick = () => { view.setMonth(view.getMonth() - 1); render(); };
+document.getElementById("next").onclick = () => { view.setMonth(view.getMonth() + 1); render(); };
+
+// Day detail sheet
+const bg = document.getElementById("sheetbg"), sheet = document.getElementById("sheet");
+function openDay(key){
+  const day = D.days[key], p = prevDate(key);
+  let html = `<h2>${new Date(key+"T12:00").toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})}<button class="close" aria-label="Close">×</button></h2>`;
+  D.buildings.forEach((b, i) => {
+    const x = day[b]; if (!x) return;
+    const old = p && D.days[p][b] ? D.days[p][b].plans : {};
+    const rows = Object.entries(x.plans).map(([name, pl]) => {
+      const was = old[name] ? old[name].low : null;
+      const c = was != null && pl.low != null && was !== pl.low ? pl.low - was : null;
+      const units = Object.entries(pl.units).map(([u,[pr,av]])=>`${u} ${fmt(pr)}${av?" · "+av:""}`).join("<br>");
+      return `<tr><td><b>${name}</b>${pl.sqft?` <span class="tag">${pl.sqft} sq ft</span>`:""}${pl.note?`<br><span class="tag">${pl.note}</span>`:""}${units?`<br><span class="tag">${units}</span>`:""}</td>
+        <td>${pl.low==null?'<span class="tag">call for price</span>':fmt(pl.low)}${c?`<br><span class="${c<0?"down":"up"}">${c<0?"▼ "+fmt(-c):"▲ "+fmt(c)}</span>`:""}${old[name]?"":(p?'<br><span class="tag">new</span>':"")}</td></tr>`;
+    }).join("");
+    html += `<div class="glass bld"><h3><span class="dot" style="background:${COLORS[i]}"></span>${b}${x.stale?' <span class="tag">· not checked, last known</span>':""}</h3>
+      <div class="deal">${x.deal?"🎁 "+x.deal:"No deal listed"}</div>
+      ${rows?`<table>${rows}</table>`:'<div class="empty">No studios listed</div>'}</div>`;
+  });
+  sheet.innerHTML = html;
+  sheet.querySelector(".close").onclick = close;
+  bg.classList.add("open");
+}
+function close(){ bg.classList.remove("open"); }
+bg.onclick = e => { if (e.target === bg) close(); };
+document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+render();
+</script>
+</body>
+</html>

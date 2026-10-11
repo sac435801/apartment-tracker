@@ -5,13 +5,16 @@
    "deal": "Up to 6 weeks free on 13+ month leases (not SMART units)",
    "plans": {
     "E1": {
-     "price": 1315
+     "price": 1315,
+     "sqft": 324
     },
     "E2": {
-     "price": 1460
+     "price": 1460,
+     "sqft": 507
     },
     "E2A": {
-     "price": null
+     "price": null,
+     "sqft": 553
     }
    }
   },
@@ -60,11 +63,52 @@
      "price": null
     }
    }
+  },
+  "Lirica": {
+   "deal": "Up to 12 weeks free on select homes (restrictions apply)",
+   "plans": {
+    "S2.6": {
+     "price": 1304,
+     "total_monthly": 1532.13,
+     "sqft": 520,
+     "available": "Now",
+     "income_restricted": true
+    }
+   }
+  },
+  "7East": {
+   "deal": null,
+   "plans": {
+    "CTS2b": {
+     "price": 3334,
+     "total_monthly": 3373,
+     "sqft": 744,
+     "note": "Only 1 left"
+    }
+   }
+  },
+  "E6": {
+   "deal": "Up to 2 weeks free on select homes",
+   "plans": {
+    "SMART Housing": {
+     "price": null,
+     "sqft": 518,
+     "income_restricted": true
+    },
+    "S1": {
+     "base_rent": "1667-1732",
+     "total_monthly": "1801-1866",
+     "sqft": 518,
+     "note": "Only 2 left"
+    },
+    "E1": {
+     "price": 1867,
+     "total_monthly": 2001,
+     "sqft": 584,
+     "note": "Only 1 left"
+    }
+   }
   }
  },
- "could_not_check": [
-  "Residences at Saltillo",
-  "The Arnold"
- ],
- "note": "Saltillo and Arnold carried forward (not verified); Guthrie verified live 2026-10-11."
+ "could_not_check": []
 }
