@@ -1,5 +1,5 @@
 {
- "date": "2026-10-11",
+ "date": "2026-10-12",
  "buildings": {
   "Residences at Saltillo": {
    "deal": "Up to 6 weeks free on 13+ month leases (not SMART units)",
@@ -80,8 +80,8 @@
    "deal": null,
    "plans": {
     "CTS2b": {
-     "price": 3334,
-     "total_monthly": 3373,
+     "price": 3342,
+     "total_monthly": 3381,
      "sqft": 744,
      "note": "Only 1 left"
     }
