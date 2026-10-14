@@ -1,0 +1,114 @@
+{
+ "date": "2026-10-14",
+ "buildings": {
+  "Residences at Saltillo": {
+   "deal": "Up to 6 weeks free on 13+ month leases (not SMART units)",
+   "plans": {
+    "E1": {
+     "price": 1315,
+     "sqft": 324
+    },
+    "E2": {
+     "price": 1470,
+     "sqft": 507
+    },
+    "E2A": {
+     "price": null,
+     "sqft": 553
+    }
+   }
+  },
+  "The Arnold": {
+   "deal": "Up to 6 weeks free on select apartments (T&Cs apply)",
+   "plans": {
+    "E2-1": {
+     "sqft": 447,
+     "units": {
+      "#3205": {
+       "price": 1708,
+       "available": "10/30/26"
+      },
+      "#2410": {
+       "price": 1728,
+       "available": "11/28/26"
+      }
+     }
+    }
+   }
+  },
+  "The Guthrie": {
+   "deal": "Up to 8 weeks free on select homes",
+   "plans": {
+    "EF1": {
+     "sqft": 400,
+     "base_rent": "1290-1380",
+     "total_monthly": "1378.75-1468.75"
+    },
+    "EF2": {
+     "sqft": 400,
+     "base_rent": "1349-1350",
+     "total_monthly": "1437.75-1438.75",
+     "note": "Only 2 left"
+    },
+    "EF2a": {
+     "sqft": 400,
+     "price": null
+    },
+    "EF4": {
+     "sqft": 454,
+     "price": null
+    },
+    "EF3": {
+     "sqft": 596,
+     "price": null
+    }
+   }
+  },
+  "Lirica": {
+   "deal": "Up to 12 weeks free on select homes (restrictions apply)",
+   "plans": {
+    "S2.6": {
+     "price": 1304,
+     "total_monthly": 1532.13,
+     "sqft": 520,
+     "available": "Now",
+     "income_restricted": true
+    }
+   }
+  },
+  "7East": {
+   "deal": null,
+   "plans": {
+    "CTS2b": {
+     "price": 3342,
+     "total_monthly": 3381,
+     "sqft": 744,
+     "note": "Only 1 left"
+    }
+   }
+  },
+  "E6": {
+   "deal": "Up to 2 weeks free on select homes",
+   "plans": {
+    "SMART Housing": {
+     "price": null,
+     "sqft": 518,
+     "income_restricted": true
+    },
+    "S1": {
+     "base_rent": "1667-1732",
+     "total_monthly": "1801-1866",
+     "sqft": 518,
+     "note": "Only 3 left"
+    },
+    "E1": {
+     "price": 1867,
+     "total_monthly": 2001,
+     "sqft": 584,
+     "note": "Only 1 left"
+    }
+   }
+  }
+ },
+ "could_not_check": []
+}
