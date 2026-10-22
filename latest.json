@@ -1,5 +1,5 @@
 {
- "date": "2026-10-21",
+ "date": "2026-10-22",
  "buildings": {
   "Residences at Saltillo": {
    "deal": "Up to 6 weeks free on 13+ month leases (not SMART units)",
@@ -88,13 +88,13 @@
      "income_restricted": true
     },
     "S1": {
-     "base_rent": "1573-1638",
-     "total_monthly": "1707-1772",
+     "base_rent": "1542-1607",
+     "total_monthly": "1676-1741",
      "sqft": 518
     },
     "E1": {
-     "price": 1773,
-     "total_monthly": 1907,
+     "price": 1742,
+     "total_monthly": 1876,
      "sqft": 584,
      "note": "Only 1 left"
     }
