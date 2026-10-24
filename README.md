@@ -1,32 +1,41 @@
-[Calendar](https://sac435801.github.io/apartment-tracker/)
+Calendar: https://sac435801.github.io/apartment-tracker/
 
-# Saltillo E1 and E2 each up $17; E6 studios down $25; Arnold and Guthrie unchanged
+# Arnold E2-1 units up ($1,708→$1,721, $1,728→$1,731); Guthrie EF4 now priced at $1,492; EF2 no longer priced
 
 ## Changes (focus buildings)
-- Residences at Saltillo: E1 $1,330 -> $1,347 (up $17); E2 $1,450 -> $1,467 (up $17); E2A call for pricing. SMART plans skipped. Deal unchanged (up to 6 weeks free on 13+ month leases).
-- The Arnold: no changes (E2-1 #3205 $1,708 avail 10/30/26; #2410 $1,728 avail 11/28/26). Deal unchanged.
-- The Guthrie: no changes (EF1 $1,356-1,446; EF2 $1,416, only 1 left; EF2a/EF4/EF3 contact us). Deal unchanged.
-- All sites checked successfully.
+**Residences at Saltillo** (non-SMART): no changes (E1 $1,347, E2 $1,467, E2A call for pricing). Deal unchanged: up to 6 weeks free.
+
+**The Arnold**
+- E2-1 #3205: $1,708 → $1,721 (+$13), available 10/30/26
+- E2-1 #2410: $1,728 → $1,731 (+$3), available 11/28/26
+- Deal unchanged: 6 weeks free.
+
+**The Guthrie**
+- EF4: now priced, $1,492 base / $1,580.75 total, "Only 1 left" (was call for pricing)
+- EF2: no longer priced (was $1,416 base, only 1 left) — now "Contact Us"
+- EF1 unchanged ($1,356-$1,446 base). Deal unchanged: up to 8 weeks free.
 
 ## Other East Austin studios
-- E6: S1 base rent $1,542-1,607 -> $1,517-1,582 (down $25); total $1,651-1,716. E1 $1,742 -> $1,717 (down $25), total $1,851, only 1 left. SMART Housing studio: contact us. Deal unchanged (up to 2 weeks free).
-- Lirica: no studios listed. Deal: up to 12 weeks free (unchanged).
-- 7East: CTS2b $3,342 (total $3,381), only 1 left; unchanged. No deal shown.
+- Lirica: no studio plans listed; deal unchanged (up to 12 weeks free).
+- 7East: no changes (CTS2b $3,342 base).
+- E6: no changes. Deal unchanged (up to 2 weeks free).
 
 ## Current studio prices
-| Building | Plan | Sq ft | Price | Notes |
+| Building | Plan | Price | Sq ft | Notes |
 |---|---|---|---|---|
-| Residences at Saltillo | E1 | 324 | $1,347 | |
-| Residences at Saltillo | E2 | 507 | $1,467 | |
-| Residences at Saltillo | E2A | 553 | call | |
-| The Arnold | E2-1 | 447 | $1,708 / $1,728 | #3205, #2410 |
-| The Guthrie | EF1 | 400 | $1,356-1,446 | |
-| The Guthrie | EF2 | 400 | $1,416 | only 1 left |
-| The Guthrie | EF2a/EF4/EF3 | 400/454/596 | call | |
-| E6 | S1 | 518 | $1,517-1,582 | |
-| E6 | E1 | 584 | $1,717 | only 1 left |
-| E6 | SMART Housing | 518 | call | income-restricted |
-| 7East | CTS2b | 744 | $3,342 | only 1 left |
-| Lirica | none | | | |
+| Residences at Saltillo | E1 | $1,347 | 324 | |
+| Residences at Saltillo | E2 | $1,467 | 507 | |
+| Residences at Saltillo | E2A | call | 553 | |
+| The Arnold | E2-1 #3205 | $1,721 | 447 | avail 10/30/26 |
+| The Arnold | E2-1 #2410 | $1,731 | 447 | avail 11/28/26 |
+| The Guthrie | EF1 | $1,356-1,446 base ($1,444.75-1,534.75 total) | 400 | |
+| The Guthrie | EF2 | call | 400 | |
+| The Guthrie | EF2a | call | 400 | |
+| The Guthrie | EF4 | $1,492 base ($1,580.75 total) | 454 | Only 1 left |
+| The Guthrie | EF3 | call | 596 | |
+| 7East | CTS2b | $3,342 base ($3,381 total) | 744 | Only 1 left |
+| E6 | SMART Housing | call (income-restricted) | 518 | |
+| E6 | S1 | $1,517-1,582 base | 518 | |
+| E6 | E1 | $1,717 base | 584 | Only 1 left |
 
-Deals: Saltillo up to 6 weeks free (13+ mo, not SMART); Arnold up to 6 weeks free; Guthrie up to 8 weeks free; Lirica up to 12 weeks free; E6 up to 2 weeks free; 7East none.
+Deals: Saltillo up to 6 wks free (13+ mo, not SMART); Arnold up to 6 wks free; Guthrie up to 8 wks free; Lirica up to 12 wks free; 7East none; E6 up to 2 wks free.
