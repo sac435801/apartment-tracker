@@ -1,5 +1,5 @@
 {
- "date": "2026-11-03",
+ "date": "2026-11-04",
  "buildings": {
   "Residences at Saltillo": {
    "deal": "Up to 6 weeks free on 13+ month leases (not SMART units)",
@@ -76,8 +76,8 @@
    "deal": null,
    "plans": {
     "CTS2b": {
-     "price": 3299,
-     "total_monthly": 3338,
+     "price": 3306,
+     "total_monthly": 3345,
      "sqft": 744,
      "note": "Only 1 left"
     }
@@ -105,5 +105,7 @@
    }
   }
  },
- "could_not_check": []
+ "could_not_check": [
+  "The Guthrie"
+ ]
 }
