@@ -1,15 +1,15 @@
 {
- "date": "2026-11-04",
+ "date": "2026-11-05",
  "buildings": {
   "Residences at Saltillo": {
    "deal": "Up to 6 weeks free on 13+ month leases (not SMART units)",
    "plans": {
     "E1": {
-     "price": 1317,
+     "price": 1327,
      "sqft": 324
     },
     "E2": {
-     "price": 1472,
+     "price": 1482,
      "sqft": 507
     },
     "E2A": {
@@ -45,8 +45,8 @@
    "plans": {
     "EF1": {
      "sqft": 400,
-     "base_rent": "1380-1470",
-     "total_monthly": "1468.75-1558.75"
+     "base_rent": "1415-1505",
+     "total_monthly": "1503.75-1593.75"
     },
     "EF2": {
      "sqft": 400,
@@ -58,8 +58,8 @@
     },
     "EF4": {
      "sqft": 454,
-     "base_rent": "1510",
-     "total_monthly": "1598.75",
+     "base_rent": "1545",
+     "total_monthly": "1633.75",
      "note": "Only 1 left"
     },
     "EF3": {
@@ -73,7 +73,7 @@
    "plans": {}
   },
   "7East": {
-   "deal": null,
+   "deal": "2 weeks free on all vacant homes (additional 2 weeks on select homes for qualifying applications)",
    "plans": {
     "CTS2b": {
      "price": 3306,
@@ -105,7 +105,5 @@
    }
   }
  },
- "could_not_check": [
-  "The Guthrie"
- ]
+ "could_not_check": []
 }
