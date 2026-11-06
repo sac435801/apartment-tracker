@@ -1,5 +1,5 @@
 {
- "date": "2026-11-05",
+ "date": "2026-11-06",
  "buildings": {
   "Residences at Saltillo": {
    "deal": "Up to 6 weeks free on 13+ month leases (not SMART units)",
@@ -9,7 +9,7 @@
      "sqft": 324
     },
     "E2": {
-     "price": 1482,
+     "price": 1477,
      "sqft": 507
     },
     "E2A": {
@@ -69,7 +69,7 @@
    }
   },
   "Lirica": {
-   "deal": "Up to 12 weeks free on select homes (restrictions apply)",
+   "deal": "Up to 12 weeks free on select homes (restrictions apply); banner: up to 8 weeks free + $1000 incentive",
    "plans": {}
   },
   "7East": {
