@@ -1,5 +1,5 @@
 {
- "date": "2026-11-06",
+ "date": "2026-11-07",
  "buildings": {
   "Residences at Saltillo": {
    "deal": "Up to 6 weeks free on 13+ month leases (not SMART units)",
@@ -25,15 +25,15 @@
      "sqft": 447,
      "units": {
       "#3205": {
-       "price": 1708,
-       "available": "11/07/26"
+       "price": 1673,
+       "available": "Available Now"
       },
       "#2410": {
-       "price": 1728,
+       "price": 1693,
        "available": "11/28/26"
       },
       "#3305": {
-       "price": 1708,
+       "price": 1673,
        "available": "01/05/27"
       }
      }
@@ -58,8 +58,8 @@
     },
     "EF4": {
      "sqft": 454,
-     "base_rent": "1545",
-     "total_monthly": "1633.75",
+     "base_rent": "1525",
+     "total_monthly": "1613.75",
      "note": "Only 1 left"
     },
     "EF3": {
@@ -76,8 +76,8 @@
    "deal": "2 weeks free on all vacant homes (additional 2 weeks on select homes for qualifying applications)",
    "plans": {
     "CTS2b": {
-     "price": 3306,
-     "total_monthly": 3345,
+     "price": 3277,
+     "total_monthly": 3316,
      "sqft": 744,
      "note": "Only 1 left"
     }
