@@ -1,5 +1,5 @@
 {
- "date": "2026-11-09",
+ "date": "2026-11-10",
  "buildings": {
   "Residences at Saltillo": {
    "deal": "Up to 6 weeks free on 13+ month leases (not SMART units)",
@@ -27,6 +27,14 @@
       "#3205": {
        "price": 1673,
        "available": "Available Now"
+      },
+      "#2410": {
+       "price": 1693,
+       "available": "11/28/26"
+      },
+      "#3305": {
+       "price": 1673,
+       "available": "01/05/27"
       }
      }
     }
@@ -37,8 +45,8 @@
    "plans": {
     "EF1": {
      "sqft": 400,
-     "base_rent": "1415-1505",
-     "total_monthly": "1503.75-1593.75"
+     "base_rent": "1440-1530",
+     "total_monthly": "1528.75-1618.75"
     },
     "EF2": {
      "sqft": 400,
@@ -50,8 +58,8 @@
     },
     "EF4": {
      "sqft": 454,
-     "base_rent": "1525",
-     "total_monthly": "1613.75",
+     "base_rent": "1550",
+     "total_monthly": "1638.75",
      "note": "Only 1 left"
     },
     "EF3": {
@@ -61,7 +69,7 @@
    }
   },
   "Lirica": {
-   "deal": "Up to 12 weeks free on select homes (restrictions apply); banner: up to 8 weeks free + $1000 incentive",
+   "deal": "Up to 8 weeks free + $1000 incentive (banner); up to 12 weeks free on select homes",
    "plans": {}
   },
   "7East": {
